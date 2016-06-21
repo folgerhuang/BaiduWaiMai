@@ -3,4 +3,5 @@
     <string name="home">首页</string>
     <string name="dingdan">订单</string>
     <string name="me">我的</string>
+    <string name="tvLogin">您还没有登录，请登录后查看订单。</string>
 </resources>
