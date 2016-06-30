@@ -6,14 +6,20 @@ import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuItem;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+import android.widget.SearchView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +29,11 @@ import java.util.List;
  */
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-//    private Button btnClick;
+    private Toolbar toolbar;
+    private TextView mtvToolBarTitle;
+    private SearchView searchView;
+    private Button btnLoginOrSignUp;
+    private GridView gvHead;
 
     private ViewPager mViewPager;
     private PagerAdapter mAdapter;
@@ -39,89 +49,72 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ImageView mImageDingdan;
     private ImageView mImageMe;
 
+    //TextView
+    private TextView mtvHome;
+    private TextView mtvDingdan;
+    private TextView mtvMe;
+
+    private List<Product> mDatas;
+    private ListAdapter mProductAdapter;
+    private ListView mProductListView;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
 
         initView();
 
         initEvent();
 
-//        findViewById(R.id.btnClick).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                ActionBar bar = getSupportActionBar();
-//                if (bar != null) {
-//                    if (bar.isShowing()) {
-//                        bar.hide();
-//                    } else {
-//                        bar.show();
-//                    }
-//                }
-//            }
-//        });
-
-
+        mLinearLayoutHome.callOnClick();
+        searchView.setFocusable(false);
     }
 
-    private void initEvent() {
 
-        mImageHome.setOnClickListener(this);
-        mImageDingdan.setOnClickListener(this);
-        mImageMe.setOnClickListener(this);
-
-        mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-
-            @Override
-            public void onPageSelected(int arg0) {
-                int currentItem = mViewPager.getCurrentItem();
-                resetImg();
-                switch (currentItem) {
-                    case 0:
-                        mImageHome.setImageResource(R.drawable.tab_icon_home_selected);
-                        break;
-                    case 1:
-                        mImageDingdan.setImageResource(R.drawable.tab_icon_dingdan_selected);
-                        break;
-                    case 2:
-                        mImageMe.setImageResource(R.drawable.tab_icon_me_selected);
-                        break;
-
-                }
-
-            }
-
-            @Override
-            public void onPageScrolled(int arg0, float arg1, int arg2) {
-
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int arg0) {
-
-            }
-        });
-    }
-
-    private void resetImg() {
+    private void resetImgAndTextColor() {
         mImageHome.setImageResource(R.drawable.tab_icon_home);
         mImageDingdan.setImageResource(R.drawable.tab_icon_dingdan);
         mImageMe.setImageResource(R.drawable.tab_icon_me);
+        mtvHome.setTextColor(getResources().getColor(R.color.colorText));
+        mtvDingdan.setTextColor(getResources().getColor(R.color.colorText));
+        mtvMe.setTextColor(getResources().getColor(R.color.colorText));
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        /*MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.settings,menu);*/
+
+        return super.onCreateOptionsMenu(menu);
     }
 
     private void initView() {
+
+        toolbar = (Toolbar) findViewById(R.id.toolBar);
+        setSupportActionBar(toolbar);
+        toolbar.setTitle("");
+        searchView = (SearchView) findViewById(R.id.searchView);
+        searchView.onActionViewExpanded();
+        searchView.setIconifiedByDefault(true);
+
+
+        int searchViewTextViewID = searchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
+        TextView tvSearch = (TextView) searchView.findViewById(searchViewTextViewID);
+        tvSearch.setTextColor(getResources().getColor(R.color.colorDark));
+        tvSearch.setHint(getResources().getString(R.string.search));
+
+
 
 
         //prepare views
         LayoutInflater inflater = LayoutInflater.from(this);
         View homeView = inflater.inflate(R.layout.home, null);
-        View dingdanView = inflater.inflate(R.layout.dingdan, null);
+        View dinDanView = inflater.inflate(R.layout.dingdan, null);
         View meView = inflater.inflate(R.layout.me, null);
         mViews.add(homeView);
-        mViews.add(dingdanView);
+        mViews.add(dinDanView);
         mViews.add(meView);
 
         //initialize pageadapter
@@ -162,49 +155,151 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mImageHome = (ImageView) findViewById(R.id.id_tab_home_img);
         mImageDingdan = (ImageView) findViewById(R.id.id_tab_dingdan_img);
         mImageMe = (ImageView) findViewById(R.id.id_tab_me_img);
+
+        //initialize TextView
+        mtvHome = (TextView) findViewById(R.id.tvHome);
+        mtvDingdan = (TextView) findViewById(R.id.tvDingdan);
+        mtvMe = (TextView) findViewById(R.id.tvMe);
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.tool_bar_layout, menu);
-//        return super.onCreateOptionsMenu(menu);
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        switch (item.getItemId()) {
-//            case R.id.btnFavorite:
-//                Toast.makeText(getApplicationContext(), getResources().getText(R.string.btnFavorite), Toast.LENGTH_SHORT).show();
-//                return true;
-//            case R.id.setting:
-//                Toast.makeText(getApplicationContext(), getResources().getText(R.string.settings), Toast.LENGTH_SHORT).show();
-//                return true;
-//            case R.id.search:
-//                Toast.makeText(getApplicationContext(), getResources().getText(R.string.search), Toast.LENGTH_SHORT).show();
-//                return true;
-//            default:
-//                return super.onOptionsItemSelected(item);
-//        }
-//    }
 
+    private void setSearchVisible(Boolean b) {
+        if (searchView != null) {
+            searchView.setVisibility(b == true ? View.VISIBLE : View.GONE);
+        }
+
+    }
 
     @Override
     public void onClick(View v) {
-        resetImg();
+        resetImgAndTextColor();
         switch (v.getId()) {
-            case R.id.id_tab_home_img:
+            case R.id.id_tab_home:
+                toolbar.setTitle("");
                 mImageHome.setImageResource(R.drawable.tab_icon_home_selected);
+                mtvHome.setTextColor(getResources().getColor(R.color.colorDarkAccent));
                 mViewPager.setCurrentItem(0);
+                setSearchVisible(true);
+               initHome(mViews.get(0));
                 break;
-            case R.id.id_tab_dingdan_img:
+            case R.id.id_tab_dingdan:
                 mImageDingdan.setImageResource(R.drawable.tab_icon_dingdan_selected);
+                mtvDingdan.setTextColor(getResources().getColor(R.color.colorDarkAccent));
+                toolbar.setTitle(getResources().getText(R.string.dindan));
+                mtvToolBarTitle.setVisibility(View.VISIBLE);
+                setSearchVisible(false);
                 mViewPager.setCurrentItem(1);
                 break;
-            case R.id.id_tab_me_img:
+            case R.id.id_tab_me:
                 mImageMe.setImageResource(R.drawable.tab_icon_me_selected);
+                mtvMe.setTextColor(getResources().getColor(R.color.colorDarkAccent));
+               toolbar.setTitle("");
+                mtvToolBarTitle.setVisibility(View.GONE);
+                setSearchVisible(false);
+                btnLoginOrSignUp.setVisibility(View.VISIBLE);
                 mViewPager.setCurrentItem(2);
                 break;
         }
 
     }
+
+    private void initHome(View v) {
+
+        //setSupportActionBar(toolbar);
+        mtvToolBarTitle = (TextView) findViewById(R.id.tvToolBarTitle);
+        mtvToolBarTitle.setVisibility(View.INVISIBLE);
+
+        btnLoginOrSignUp= (Button) findViewById(R.id.btnLoginOrSignUp);
+
+
+        mProductListView = (ListView) v.findViewById(R.id.lvItem);
+        mDatas = new ArrayList<>();
+        Product p = new Product("巫山烤鱼", "90");
+        mDatas.add(p);
+        p = new Product("必胜客", "199");
+        mDatas.add(p);
+        p = new Product("麦当劳", "88");
+        mDatas.add(p);
+        p = new Product("大碗厨", "79");
+        mDatas.add(p);
+        p = new Product("莜面村", "159");
+        mDatas.add(p);
+        p = new Product("重庆火锅", "288");
+        mDatas.add(p);
+
+        mProductAdapter = new ProductAdapter(this, mDatas);
+        mProductListView.setAdapter(mProductAdapter);
+        if(mProductListView.getHeaderViewsCount()==0) {
+            LayoutInflater inflater = getLayoutInflater();
+            ViewGroup header = (ViewGroup) inflater.inflate(R.layout.homeheadview, mProductListView, false);
+
+            gvHead = (GridView) header.findViewById(R.id.gvHead);
+            ListAdapter homeHeadAdapter=new HomeHeadAdapter(this);
+            gvHead.setAdapter(homeHeadAdapter);
+            mProductListView.addHeaderView(header, null, false);
+        }
+
+
+
+
+    }
+
+    private void initEvent() {
+
+        mLinearLayoutHome.setOnClickListener(this);
+        mLinearLayoutDingdan.setOnClickListener(this);
+        mLinearLayoutMe.setOnClickListener(this);
+
+
+        mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
+            @Override
+            public void onPageSelected(int arg0) {
+                int currentItem = mViewPager.getCurrentItem();
+                resetImgAndTextColor();
+                switch (currentItem) {
+                    case 0:
+                        toolbar.setTitle("");
+                        mImageHome.setImageResource(R.drawable.tab_icon_home_selected);
+                        mtvHome.setTextColor(getResources().getColor(R.color.colorDarkAccent));
+                        mtvToolBarTitle.setVisibility(View.GONE);
+                        setSearchVisible(true);
+                        btnLoginOrSignUp.setVisibility(View.GONE);
+                        initHome(mViews.get(0));
+                        break;
+                    case 1:
+                        mImageDingdan.setImageResource(R.drawable.tab_icon_dingdan_selected);
+                        mtvDingdan.setTextColor(getResources().getColor(R.color.colorDarkAccent));
+                        toolbar.setTitle(getResources().getText(R.string.dindan));
+                        mtvToolBarTitle.setVisibility(View.VISIBLE);
+                        setSearchVisible(false);
+                        btnLoginOrSignUp.setVisibility(View.GONE);
+                        break;
+                    case 2:
+                        mImageMe.setImageResource(R.drawable.tab_icon_me_selected);
+                        mtvMe.setTextColor(getResources().getColor(R.color.colorDarkAccent));
+                        mtvToolBarTitle.setVisibility(View.GONE);
+                        setSearchVisible(false);
+                        toolbar.setTitle("");
+                        btnLoginOrSignUp.setVisibility(View.VISIBLE);
+                        break;
+
+                }
+
+            }
+
+            @Override
+            public void onPageScrolled(int arg0, float arg1, int arg2) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int arg0) {
+
+            }
+        });
+    }
+
+
+
 }

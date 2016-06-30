@@ -2,6 +2,7 @@
     android:layout_width="match_parent"
     android:layout_height="55dp"
     android:background="@color/colorWhite"
+    android:clickable="true"
     android:orientation="horizontal" >
 
     <LinearLayout
@@ -21,8 +22,11 @@
             android:src="@drawable/tab_icon_home_selected" />
 
         <TextView
+            android:id="@+id/tvHome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/colorText"
+            android:clickable="false"
             android:text="@string/home" />
     </LinearLayout>
 
@@ -43,9 +47,12 @@
             android:src="@drawable/tab_icon_dingdan" />
 
         <TextView
+            android:id="@+id/tvDingdan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/dingdan"/>
+            android:textColor="@color/colorText"
+            android:clickable="false"
+            android:text="@string/dindan"/>
     </LinearLayout>
 
     <LinearLayout
@@ -65,8 +72,11 @@
             android:src="@drawable/tab_icon_me" />
 
         <TextView
+            android:id="@+id/tvMe"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/colorText"
+            android:clickable="false"
             android:text="@string/me"/>
     </LinearLayout>
 

@@ -5,5 +5,12 @@
     <color name="colorAccent">#FF4081</color>
     <color name="colorWhite">#FFF</color>
     <color name="colorGray">#d6d6dc</color>
-    <color name="colorDarkAccent">#d01f4d</color>
+    <color name="colorDarkAccent">#f40c37</color>
+    <color name="colorText">#a1a2a2</color>
+    <color name="colorBlack">#0a0a0a</color>
+    <color name="colorHomeBackground">#d6d6da</color>
+    <color name="colorBlue">#4e94d1</color>
+    <color name="colorHome">#eeeff0</color>
+    <color name="colorDark">#000000</color>
 </resources>
+

@@ -6,6 +6,52 @@
     android:orientation="vertical"
     tools:context="com.jkxy.baiduwaimai.MainActivity">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorDarkAccent"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:paddingLeft="@dimen/activity_horizontal_margin">
+
+        <SearchView
+            android:id="@+id/searchView"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:iconifiedByDefault="true"
+            android:layout_margin="0dp"
+            android:background="#F0F0F0F0"
+            android:alpha="1"
+            android:queryHint="@string/search" />
+
+
+
+        <TextView
+            android:id="@+id/tvToolBarTitle"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+            android:text="@string/dindan"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/btnLoginOrSignUp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/circle_button"
+            android:text="@string/btnLoginOrSignUP"
+            android:textAllCaps="false"
+            android:textColor="@color/colorAccent"
+            android:visibility="gone" />
+
+    </android.support.v7.widget.Toolbar>
+
+
+
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewPager"
@@ -13,5 +59,5 @@
         android:layout_height="0dp"
         android:layout_weight="1"></android.support.v4.view.ViewPager>
 
-    <include layout="@layout/bottom"/>
+    <include layout="@layout/bottom" />
 </LinearLayout>

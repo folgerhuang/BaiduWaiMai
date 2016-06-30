@@ -1,7 +1,28 @@
 <resources>
     <string name="app_name">BaiduWaiMai</string>
     <string name="home">首页</string>
-    <string name="dingdan">订单</string>
+    <string name="dindan">订单</string>
     <string name="me">我的</string>
     <string name="tvLogin">您还没有登录，请登录后查看订单。</string>
+    <string name="search">输入商品或者商家名称</string>
+    <string name="qisong">配送¥</string>
+    <string name="split">|</string>
+    <string name="allProducts">全部商家</string>
+    <string name="btnLoginOrSignUP">登录/注册</string>
+    <string name="tuhao">土豪特供</string>
+    <string name="baidupeisong">百度配送</string>
+    <string name="medicine">网上送药</string>
+    <string name="address">送餐地址</string>
+    <string name="daijinquan">我的代金券</string>
+    <string name="message">我的消息</string>
+    <string name="shoucuang">我的收藏</string>
+    <string name="comment">我的评论</string>
+    <string name="tea">下午茶</string>
+    <string name="eat">餐饮</string>
+    <string name="shopping">超市购</string>
+    <string name="fruit">水果生鲜</string>
+    <string name="newdian">新店</string>
+    <string name="baiduqianbao">百度钱包</string>
+    <string name="baidunuomi">百度糯米</string>
+    <string name="settings">Settings</string>
 </resources>
